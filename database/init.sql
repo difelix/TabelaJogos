@@ -1,15 +1,14 @@
+CREATE USER adminTabelaJogos with encrypted password 'gol';
 
 -- criação do banco de dados tabelaJogos
 CREATE DATABASE tabelaJogos OWNER adminTabelaJogos;
+GRANT ALL PRIVILEGES ON DATABASE tabelaJogos TO adminTabelaJogos;
 
 USE tabelaJogos;
 
-CREATE USER adminTabelaJogos with encrypted password 'gol';
-GRANT ALL PRIVILEGES ON DATABASE tabelaJogos TO adminTabelaJogos;
-
 -- guarda dados relacionados ao usuário do sistema
 CREATE TABLE usuario (
-   id_user bigint SERIAL PRIMARY KEY,
+   id_user bigserial PRIMARY KEY,
    name VARCHAR(30) NOT NULL,
    nickname VARCHAR(10) NOT NULL, -- nome fantasia do usuario
    email VARCHAR(50) NOT NULL,
@@ -19,7 +18,7 @@ CREATE TABLE usuario (
 CREATE UNIQUE INDEX id_user_idx ON usuario(id_user);
 
 CREATE TABLE campeonato (
-   id_campeonato bigint SERIAL PRIMARY KEY,
+   id_campeonato bigserial PRIMARY KEY,
    nome VARCHAR(20) NOT NULL,
    organizador VARCHAR(30), -- nome do organizador ou da associação que organiza o campeonato
    temporada VARCHAR(20) NOT NULL, -- ano da realização do campeonato. Ex: 2019/2020
@@ -32,7 +31,7 @@ CREATE TABLE campeonato (
 CREATE UNIQUE INDEX id_campeonato_idx ON campeonato(id_campeonato);
 
 CREATE TABLE times (
-   id_time bigint SERIAL PRIMARY KEY,
+   id_time bigserial PRIMARY KEY,
    nome VARCHAR(30) NOT NULL,
    data_criacao date NOT NULL,
    cidade_sede VARCHAR(20) NOT NULL, -- cidade onde time atua e manda seus jogos
@@ -44,7 +43,7 @@ CREATE TABLE times (
 CREATE UNIQUE INDEX id_time_idx ON times(id_time);
 
 CREATE TABLE timeCampeonato (
-   id_timecampeonato bigint SERIAL PRIMARY KEY,
+   id_timecampeonato bigserial PRIMARY KEY,
    id_campeonato bigint references campeonato,
    id_time bigint references times
 );
@@ -52,7 +51,7 @@ CREATE TABLE timeCampeonato (
 CREATE UNIQUE INDEX id_timecampeonato_idx ON timeCampeonato(id_timecampeonato);
 
 CREATE TABLE jogador (
-   id_jogador bigint SERIAL PRIMARY KEY,
+   id_jogador bigserial PRIMARY KEY,
    nome VARCHAR(30) NOT NULL,
    nascimento date NOT NULL,
    nacionalidade VARCHAR(30) NOT NULL,
@@ -64,7 +63,7 @@ CREATE TABLE jogador (
 CREATE UNIQUE INDEX id_jogador_idx ON jogador(id_jogador);
 
 CREATE TABLE jogos (
-   id_jogo bigint SERIAL PRIMARY KEY,
+   id_jogo bigserial PRIMARY KEY,
    id_adversario bigint NOT NULL, -- id do time visitante que enfrenta o time da casa
    rodada integer NOT NULL, -- número da rodada do campeonato
    qntde_gols_time integer NOT NULL,
