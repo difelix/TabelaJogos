@@ -51,7 +51,7 @@ public class Jogos {
 	@Column(name = "descricao")
 	private String descricao;
 	
-	@ManyToMany
+	@ManyToOne
 	@JoinColumn(name = "id_time")
 	private Times times;
 	

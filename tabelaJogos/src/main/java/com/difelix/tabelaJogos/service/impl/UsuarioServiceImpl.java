@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.difelix.tabelaJogos.model.entity.Usuario;
 import com.difelix.tabelaJogos.model.repository.UsuarioRepository;
 import com.difelix.tabelaJogos.service.UsuarioService;
+import com.difelix.tabelaJogos.service.exception.RegraNegocioException;
 
 @Service
 public class UsuarioServiceImpl implements UsuarioService {
@@ -32,7 +33,19 @@ public class UsuarioServiceImpl implements UsuarioService {
 
 	@Override
 	public void validarEmail(String email) {
-		// TODO Auto-generated method stub
+		boolean existsEmail = usuarioRepository.existsByEmail(email);
+		if (existsEmail) {
+			throw new RegraNegocioException("Email informado já foi cadastrado no sistema.");
+		}
+		
+	}
+
+	@Override
+	public void validarNickname(String nickname) {
+		boolean exists = usuarioRepository.existsByNickname(nickname);
+		if (exists) {
+			throw new RegraNegocioException("Nickname informado já foi utilizado no sistema");
+		}
 		
 	}
 

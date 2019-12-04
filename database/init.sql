@@ -1,12 +1,16 @@
-CREATE USER adminTabelaJogos with encrypted password 'gol';
+CREATE USER admintabelajogos with encrypted password 'gol';
 
 -- criação do banco de dados tabelaJogos
-CREATE DATABASE tabelaJogos OWNER adminTabelaJogos;
-GRANT ALL PRIVILEGES ON DATABASE tabelaJogos TO adminTabelaJogos;
+CREATE DATABASE tabelajogos OWNER admintabelajogos;
+GRANT CONNECT ON DATABASE tabelajogos TO admintabelajogos;
 
-USE tabelaJogos;
+USE tabelajogos;
 
-CREATE SCHEMA tabelaJogos;
+CREATE SCHEMA tabelajogos;
+
+GRANT USAGE ON SCHEMA tabelajogos TO admintabelajogos;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA tabelajogos TO admintabelajogos;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA tabelajogos TO admintabelajogos;
 
 -- guarda dados relacionados ao usuário do sistema
 CREATE TABLE tabelaJogos.usuario (
