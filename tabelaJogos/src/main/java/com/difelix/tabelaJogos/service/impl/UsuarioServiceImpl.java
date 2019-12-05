@@ -1,11 +1,15 @@
 package com.difelix.tabelaJogos.service.impl;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.difelix.tabelaJogos.model.entity.Usuario;
 import com.difelix.tabelaJogos.model.repository.UsuarioRepository;
 import com.difelix.tabelaJogos.service.UsuarioService;
+import com.difelix.tabelaJogos.service.exception.ErroAutenticacaoException;
 import com.difelix.tabelaJogos.service.exception.RegraNegocioException;
 
 @Service
@@ -20,15 +24,42 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	public Usuario autenticarUsuario(String email, String password) {
-		// TODO Auto-generated method stub
-		return null;
+	public Usuario autenticarUsuarioPeloEmail(String email, String password) {
+		Optional<Usuario> usuario = usuarioRepository.findByEmail(email);
+		
+		if (!usuario.isPresent()) {
+			throw new ErroAutenticacaoException("Email informado não foi encontrado!");
+		}
+		
+		if (!usuario.get().getPassword().equals(password)) {
+			throw new ErroAutenticacaoException("Senha inválida");
+		}
+		
+		return usuario.get();
+	}
+	
+	@Override
+	public Usuario autenticarUsuarioPeloNickname(String nickname, String password) {
+		Optional<Usuario> usuario = usuarioRepository.findByNickname(nickname);
+		
+		if (!usuario.isPresent()) {
+			throw new ErroAutenticacaoException("Nickname informado não foi encontrado!");
+		}
+		
+		if (!usuario.get().getPassword().equals(password)) {
+			throw new ErroAutenticacaoException("Senha inválida");
+		}
+		
+		return usuario.get();
 	}
 
 	@Override
+	@Transactional
 	public Usuario cadastrarNovoUsuario(Usuario usuario) {
-		// TODO Auto-generated method stub
-		return null;
+		validarEmail(usuario.getEmail());
+		validarNickname(usuario.getNickname());
+		
+		return usuarioRepository.save(usuario);
 	}
 
 	@Override

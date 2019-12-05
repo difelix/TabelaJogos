@@ -4,7 +4,9 @@ import com.difelix.tabelaJogos.model.entity.Usuario;
 
 public interface UsuarioService {
 	
-	Usuario autenticarUsuario(String email, String password);
+	Usuario autenticarUsuarioPeloEmail(String email, String password);
+	
+	Usuario autenticarUsuarioPeloNickname(String nickname, String password);
 	
 	Usuario cadastrarNovoUsuario(Usuario usuario);
 	
