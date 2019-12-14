@@ -13,19 +13,23 @@ import javax.persistence.Table;
 
 import com.difelix.tabelaJogos.model.enums.TipoCampeonato;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "campeonato")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Campeonato {
 	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@Column(name = "nome")
 	private String nome;
@@ -37,7 +41,7 @@ public class Campeonato {
 	private String temporada;
 	
 	@Column(name = "qntde_times")
-	private int qntdeTimes;
+	private Integer qntdeTimes;
 	
 	@Column(name = "returno")
 	@Enumerated(EnumType.STRING)

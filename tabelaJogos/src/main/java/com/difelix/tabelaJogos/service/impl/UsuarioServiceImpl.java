@@ -54,15 +54,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
-	@Transactional
-	public Usuario cadastrarNovoUsuario(Usuario usuario) {
-		validarEmail(usuario.getEmail());
-		validarNickname(usuario.getNickname());
-		
-		return usuarioRepository.save(usuario);
-	}
-
-	@Override
 	public void validarEmail(String email) {
 		boolean existsEmail = usuarioRepository.existsByEmail(email);
 		if (existsEmail) {
@@ -78,6 +69,37 @@ public class UsuarioServiceImpl implements UsuarioService {
 			throw new RegraNegocioException("Nickname informado já foi utilizado no sistema");
 		}
 		
+	}
+	
+	@Override
+	@Transactional
+	public Usuario cadastrarNovoUsuarioComEmail(Usuario usuario) {
+		if (usuario.getPassword().length() > 8) {
+			throw new RegraNegocioException("Senha não pode conter mais que 8 caracteres");
+		}
+		
+		if (usuario.getNickname().length() > 10) {
+			throw new RegraNegocioException("Nickname não pode conter mais que 10 caracteres");
+		}
+		
+		validarEmail(usuario.getEmail());
+		
+		return usuarioRepository.save(usuario);
+	}
+
+	@Override
+	public Usuario cadastrarNovoUsuarioComNickname(Usuario usuario) {
+		if (usuario.getPassword().length() > 8) {
+			throw new RegraNegocioException("Senha não pode conter mais que 8 caracteres");
+		}
+		
+		if (usuario.getNickname().length() > 10) {
+			throw new RegraNegocioException("Nickname não pode conter mais que 10 caracteres");
+		}
+		
+		validarNickname(usuario.getNickname());
+		
+		return usuarioRepository.save(usuario);
 	}
 
 }

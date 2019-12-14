@@ -1,24 +1,25 @@
 package com.difelix.tabelaJogos.model.entity;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name = "times")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Times {
 
@@ -30,9 +31,8 @@ public class Times {
 	@Column(name = "nome")
 	private String nome;
 	
-	@Column(name = "data_criacao")
-	@Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
-	private LocalDate dataCriacao;
+	@Column(name = "data_criacao")	
+	private Date dataCriacao;
 	
 	@Column(name = "cidade_sede")
 	private String cidadeSede;

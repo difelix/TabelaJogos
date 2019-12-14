@@ -8,7 +8,9 @@ public interface UsuarioService {
 	
 	Usuario autenticarUsuarioPeloNickname(String nickname, String password);
 	
-	Usuario cadastrarNovoUsuario(Usuario usuario);
+	Usuario cadastrarNovoUsuarioComEmail(Usuario usuario);
+	
+	Usuario cadastrarNovoUsuarioComNickname(Usuario usuario);
 	
 	void validarEmail(String email);
 	

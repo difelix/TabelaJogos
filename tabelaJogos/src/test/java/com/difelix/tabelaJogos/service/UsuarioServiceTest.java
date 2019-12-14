@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -24,19 +25,14 @@ public class UsuarioServiceTest {
 	@MockBean
 	UsuarioRepository usuarioRepository;
 	
-	UsuarioService usuarioService;
+	@SpyBean
+	UsuarioServiceImpl usuarioService;
 	
 	private final String NOME = "Diego";
 	private final String PASSWORD = "teste";
 	private final String NICKNAME = "di";
 	private final long ID = 1L;
 	private final String EMAIL = "diego@email.com";
-	
-	@Before
-	public void setUp() {
-		usuarioService = new UsuarioServiceImpl(usuarioRepository);
-	}
-	
 	
 	@Test(expected = Test.None.class)
 	public void validarEmailQueNaoExiste() {
@@ -126,6 +122,60 @@ public class UsuarioServiceTest {
 		
 		Throwable exception = Assertions.catchThrowable(() -> usuarioService.autenticarUsuarioPeloNickname(NICKNAME, "12345"));
 		Assertions.assertThat(exception).isInstanceOf(ErroAutenticacaoException.class).hasMessage("Senha inválida");
+	}
+	
+	@Test(expected = Test.None.class)
+	public void salvarUsuarioComEmailSucesso() {
+		Usuario usuarioASerSalvo = criarUsuario(EMAIL, PASSWORD, NICKNAME, NOME, ID);
+		
+		Mockito.doNothing().when(usuarioService).validarEmail(Mockito.anyString());
+		Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuarioASerSalvo);
+		
+		Usuario usuarioSalvo = usuarioService.cadastrarNovoUsuarioComEmail(usuarioASerSalvo);
+		
+		Assertions.assertThat(usuarioSalvo).isNotNull();
+		Assertions.assertThat(usuarioSalvo.getId()).isEqualTo(usuarioASerSalvo.getId());
+		Assertions.assertThat(usuarioSalvo.getName()).isEqualTo(usuarioASerSalvo.getName());
+		Assertions.assertThat(usuarioSalvo.getEmail()).isEqualTo(usuarioASerSalvo.getEmail());
+		Assertions.assertThat(usuarioSalvo.getPassword()).isEqualTo(usuarioASerSalvo.getPassword());
+		Assertions.assertThat(usuarioSalvo.getNickname()).isEqualTo(usuarioASerSalvo.getNickname());
+	}
+	
+	@Test(expected = Test.None.class)
+	public void salvarUsuarioComNicknameSucesso() {
+		Usuario usuarioASerSalvo = criarUsuario(EMAIL, PASSWORD, NICKNAME, NOME, ID);
+		
+		Mockito.doNothing().when(usuarioService).validarNickname(Mockito.anyString());
+		Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuarioASerSalvo);
+		
+		Usuario usuarioSalvo = usuarioService.cadastrarNovoUsuarioComNickname(usuarioASerSalvo);
+		
+		Assertions.assertThat(usuarioSalvo).isNotNull();
+		Assertions.assertThat(usuarioSalvo.getId()).isEqualTo(usuarioASerSalvo.getId());
+		Assertions.assertThat(usuarioSalvo.getName()).isEqualTo(usuarioASerSalvo.getName());
+		Assertions.assertThat(usuarioSalvo.getEmail()).isEqualTo(usuarioASerSalvo.getEmail());
+		Assertions.assertThat(usuarioSalvo.getPassword()).isEqualTo(usuarioASerSalvo.getPassword());
+		Assertions.assertThat(usuarioSalvo.getNickname()).isEqualTo(usuarioASerSalvo.getNickname());
+	}
+	
+	@Test(expected = RegraNegocioException.class)
+	public void naoSalvarUsuarioComEmailErrado() {
+		Usuario usuario = Usuario.builder().email(EMAIL).build();
+		Mockito.doThrow(RegraNegocioException.class).when(usuarioService).validarEmail(EMAIL);
+		
+		usuarioService.cadastrarNovoUsuarioComEmail(usuario);
+		
+		Mockito.verify(usuarioRepository, Mockito.never()).save(usuario);
+	}
+	
+	@Test(expected = RegraNegocioException.class)
+	public void naoSalvarUsuarioComNicknameErrado() {
+		Usuario usuario = Usuario.builder().nickname(NICKNAME).build();
+		Mockito.doThrow(RegraNegocioException.class).when(usuarioService).validarNickname(NICKNAME);
+		
+		usuarioService.cadastrarNovoUsuarioComNickname(usuario);
+		
+		Mockito.verify(usuarioRepository, Mockito.never()).save(usuario);
 	}
 	
 	public static Usuario criarUsuario(String email, String password, String nickname, String name, long id) {

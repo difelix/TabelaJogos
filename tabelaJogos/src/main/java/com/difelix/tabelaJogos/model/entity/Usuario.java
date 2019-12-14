@@ -1,31 +1,36 @@
 package com.difelix.tabelaJogos.model.entity;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import org.hibernate.annotations.CreationTimestamp;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Table(name = "usuario", schema = "tabelajogos")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Usuario {
 	
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@Column(name = "name")
 	private String name;
@@ -40,7 +45,8 @@ public class Usuario {
 	private String password;
 	
 	@Column(name = "data_criacao")
-	@Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
-	private LocalDate dataCriacao;
+	@CreationTimestamp
+	@Temporal(TemporalType.DATE)
+	private Date dataCriacao;
 
 }
