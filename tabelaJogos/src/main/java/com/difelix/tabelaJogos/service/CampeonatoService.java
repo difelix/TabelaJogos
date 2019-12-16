@@ -1,6 +1,7 @@
 package com.difelix.tabelaJogos.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.difelix.tabelaJogos.model.entity.Campeonato;
 
@@ -15,4 +16,6 @@ public interface CampeonatoService {
 	List<Campeonato> filtrarCampeonato(Campeonato campeonato);
 	
 	void validarCampeonato(Campeonato campeonato);
+	
+	Optional<Campeonato> getCampeonatoPorId(Long id);
 }

@@ -1,5 +1,7 @@
 package com.difelix.tabelaJogos.service;
 
+import java.util.Optional;
+
 import com.difelix.tabelaJogos.model.entity.Usuario;
 
 public interface UsuarioService {
@@ -15,5 +17,7 @@ public interface UsuarioService {
 	void validarEmail(String email);
 	
 	void validarNickname(String nickname);
+	
+	Optional<Usuario> getUsuarioPorId(Long id);
 
 }

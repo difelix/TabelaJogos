@@ -1,6 +1,7 @@
 package com.difelix.tabelaJogos.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.difelix.tabelaJogos.model.entity.Jogador;
 
@@ -13,5 +14,8 @@ public interface JogadorService {
 	void apagarJogador(Jogador jogador);
 	
 	List<Jogador> filtrarJogador(Jogador jogador);
-
+	
+	void validarJogador(Jogador jogador);
+	
+	Optional<Jogador> getJogadorPorId(Long id);
 }

@@ -40,7 +40,7 @@ CREATE UNIQUE INDEX id_campeonato_idx ON tabelaJogos.campeonato(id);
 CREATE TABLE tabelaJogos.times (
    id bigserial PRIMARY KEY,
    nome VARCHAR(30) NOT NULL,
-   data_criacao date NOT NULL,
+   data_criacao VARCHAR NOT NULL,
    cidade_sede VARCHAR(20) NOT NULL, -- cidade onde time atua e manda seus jogos
    federacao_afiliado VARCHAR(20) NOT NULL, -- federação a qual o time está filiado. Ex: Federação Paulista de Futebol
    estadio VARCHAR(50), -- nome do estádio onde time joga
@@ -60,9 +60,9 @@ CREATE UNIQUE INDEX id_timecampeonato_idx ON tabelaJogos.timeCampeonato(id);
 CREATE TABLE tabelaJogos.jogador (
    id bigserial PRIMARY KEY,
    nome VARCHAR(30) NOT NULL,
-   nascimento date NOT NULL,
+   nascimento VARCHAR NOT NULL,
    nacionalidade VARCHAR(30) NOT NULL,
-   posicao VARCHAR(15) NOT NULL, -- posição aonde o jogador atua em campo. Ex: atacante, meio campo, zagueiro, etc
+   posicao VARCHAR(15) CHECK (posicao IN ('GOLEIRO', 'ZAGUEIRO', 'LATERALDIREITO', 'LATERALESQUERDO', 'VOLANTE', 'MEIOCAMPO', 'ATACANTE', 'TECNICO')) NOT NULL,
    descricao VARCHAR(100),
    id_time bigint references tabelaJogos.times (id)
 );

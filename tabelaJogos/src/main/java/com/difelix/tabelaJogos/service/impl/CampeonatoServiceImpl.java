@@ -2,6 +2,7 @@ package com.difelix.tabelaJogos.service.impl;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -56,28 +57,33 @@ public class CampeonatoServiceImpl implements CampeonatoService {
 	public void validarCampeonato(Campeonato campeonato) {
 		
 		if (campeonato.getNome() == null || campeonato.getNome().length() > 20) {
-			throw new RegraNegocioException("Campo Nome não pode ser vazio nem possuir mais de 20 caracteres");
+			throw new RegraNegocioException("Campo Nome não pode ser nulo nem possuir mais de 20 caracteres");
 		}
 		
-		if (campeonato.getOrganizador().length() > 30) {
+		if (campeonato.getOrganizador() != null && campeonato.getOrganizador().length() > 30) {
 			throw new RegraNegocioException("Campo Organizador não pode possuir mais de 30 caracteres");
 		}
 		
-		if (campeonato.getTemporada() == null) {
-			throw new RegraNegocioException("Campo Temporada não pode ser vazio");
+		if (campeonato.getTemporada() == null || campeonato.getTemporada().length() > 20) {
+			throw new RegraNegocioException("Campo Temporada não pode ser nulo nem possuir mais de 20 caracteres");
 		}
 		
 		if (campeonato.getQntdeTimes() == null || campeonato.getQntdeTimes() <= 1) {
-			throw new RegraNegocioException("Campeonato precisa ter mais de 2 times participantes");
+			throw new RegraNegocioException("Campeonato não pode ser nulo e precisa ter mais de 2 times participantes");
 		}
 		
 		if (campeonato.getReturno() == null) {
-			throw new RegraNegocioException("Campo Returno não pode ser vazio");
+			throw new RegraNegocioException("Campo Returno não pode ser nulo");
 		}
 		
 		if (campeonato.getUsuario() == null || campeonato.getUsuario().getId() == null) {
 			throw new RegraNegocioException("É necessário vincular um usuário válido");		
 		}		
+	}
+
+	@Override
+	public Optional<Campeonato> getCampeonatoPorId(Long id) {
+		return campeonatoRepository.findById(id);
 	}
 
 }

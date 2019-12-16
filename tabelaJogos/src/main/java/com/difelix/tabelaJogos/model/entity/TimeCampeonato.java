@@ -9,19 +9,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "timeCampeonato")
+@Table(name = "timecampeonato", schema = "tabelajogos")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TimeCampeonato {
 
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@OneToOne
 	@JoinColumn(name = "id_campeonato")

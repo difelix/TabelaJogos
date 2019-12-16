@@ -1,7 +1,5 @@
 package com.difelix.tabelaJogos.model.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,7 +14,7 @@ import lombok.NoArgsConstructor;
 
 
 @Entity
-@Table(name = "times")
+@Table(name = "times", schema = "tabelajogos")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,13 +24,13 @@ public class Times {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	@Column(name = "nome")
 	private String nome;
 	
 	@Column(name = "data_criacao")	
-	private Date dataCriacao;
+	private String dataCriacao;
 	
 	@Column(name = "cidade_sede")
 	private String cidadeSede;

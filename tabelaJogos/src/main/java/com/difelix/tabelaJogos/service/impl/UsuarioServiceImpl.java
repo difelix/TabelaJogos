@@ -102,4 +102,9 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return usuarioRepository.save(usuario);
 	}
 
+	@Override
+	public Optional<Usuario> getUsuarioPorId(Long id) {
+		return usuarioRepository.findById(id);
+	}
+
 }

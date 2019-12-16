@@ -14,15 +14,14 @@ import com.difelix.tabelaJogos.service.UsuarioService;
 import com.difelix.tabelaJogos.service.exception.ErroAutenticacaoException;
 import com.difelix.tabelaJogos.service.exception.RegraNegocioException;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/api/usuario")
+@RequiredArgsConstructor
 public class UsuarioResource {
 	
-	private UsuarioService usuarioService;
-	
-	public UsuarioResource(UsuarioService usuarioService) {
-		this.usuarioService = usuarioService;
-	}
+	private final UsuarioService usuarioService;
 	
 	@PostMapping("/salvarEmail")
 	public ResponseEntity salvarUsuarioComEmail(@RequestBody UsuarioDto usuarioDto) {
